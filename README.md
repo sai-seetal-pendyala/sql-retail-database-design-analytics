@@ -10,13 +10,11 @@
 
 ## 📋 Table of Contents
 
-- [Project Overview](#-project-overview)
-- [Business Context](#-business-context)
-- [Database Architecture](#-database-architecture)
-- [Outcomes & Impact](#-outcomes--impact)
-- [Skills Demonstrated](#-skills-demonstrated)
-- [Installation](#-installation)
-- [Project Structure](#-project-structure)
+- [Project Overview](#project-overview)
+- [Business Context](#business-context)
+- [Database Architecture](#database-architecture)
+- [Outcomes & Impact](#outcomes--impact)
+- [Skills Demonstrated](#skills-demonstrated)
 
 ---
 
