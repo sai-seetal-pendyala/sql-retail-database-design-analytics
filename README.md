@@ -146,70 +146,8 @@ This system represents a **complete digital transformation** demonstrating:
 
 ---
 
-## 🚀 Installation
-
-### Prerequisites
-- MySQL 8.0+ or compatible SQL database
-- Database administration privileges
-
-### Quick Start
-
-```bash
-# 1. Clone repository
-git clone https://github.com/yourusername/foxcore-retail-database.git
-cd foxcore-retail-database
-
-# 2. Create database
-mysql -u username -p -e "CREATE DATABASE foxcore_retail;"
-
-# 3. Execute scripts in order
-mysql -u username -p foxcore_retail < sql/01_create_tables.sql
-mysql -u username -p foxcore_retail < sql/02_insert_data.sql
-mysql -u username -p foxcore_retail < sql/04_analytical_queries.sql
-```
-
-### Verification
-
-```sql
-USE foxcore_retail;
-SHOW TABLES;
-SELECT COUNT(*) FROM Sales;
-```
-
----
-
-## 📁 Project Structure
-
-```
-foxcore-retail-database/
-├── sql/
-│   ├── 01_create_tables.sql      # Schema creation
-│   ├── 02_insert_data.sql        # Sample data
-│   ├── 03_update_delete.sql      # Operations
-│   └── 04_analytical_queries.sql # BI queries
-├── schema/
-│   ├── ERD.png                    # Entity Relationship Diagram
-│   ├── Relational Schema .png    # Relational schema
-│   └── Normalisation_3NF.png     # 3NF normalization
-├── docs/
-│   ├── DATABASE_DICTIONARY.md     # Data dictionary
-│   └── ARCHITECTURE.md            # Architecture docs
-├── README.md
-├── LICENSE
-└── .gitignore
-```
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
----
 
 <div align="center">
-
-**Built with precision for enterprise-grade data management**
 
 [⬆ Back to Top](#foxcore-retail-database-system)
 
