@@ -1,0 +1,52 @@
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.mdb
+*.accdb
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS files
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Compiled files
+*.pyc
+__pycache__/
+
+# Node modules (if using Node.js tools)
+node_modules/
+package-lock.json
+
+# Documentation builds
+docs/_build/
+site/
+
+# Personal notes
+notes.md
+TODO.md
+personal/
+
