@@ -18,7 +18,7 @@
 
 ---
 
-## 🎯 Project Overview
+## 🎯 Project Overview <a id="project-overview"></a>
 
 **What This Project Is About**
 
@@ -39,7 +39,7 @@ Enterprise-grade relational database system designed to eliminate operational in
 
 ---
 
-## 🏢 Business Context
+## 🏢 Business Context <a id="business-context"></a>
 
 **Foxcore Retail** is an Ontario-based startup operating pop-up booths at music festivals and trade shows. As operations scaled, manual data tracking systems created critical inefficiencies.
 
@@ -53,7 +53,7 @@ Enterprise-grade relational database system designed to eliminate operational in
 
 ---
 
-## 🏗️ Database Architecture
+## 🏗️ Database Architecture <a id="database-architecture"></a>
 
 ### Entity Relationship Diagram
 
@@ -76,7 +76,7 @@ Enterprise-grade relational database system designed to eliminate operational in
 
 ---
 
-## 📊 Outcomes & Impact
+## 📊 Outcomes & Impact <a id="outcomes-impact"></a>
 
 ### Measurable Improvements
 
@@ -116,7 +116,7 @@ This system represents a **complete digital transformation** demonstrating:
 
 ---
 
-## 💼 Skills Demonstrated
+## 💼 Skills Demonstrated <a id="skills-demonstrated"></a>
 
 ### Database Engineering
 - Entity Relationship Modeling | Relational Database Design | 3NF Normalization
