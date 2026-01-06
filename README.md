@@ -1,4 +1,4 @@
-# Foxcore Retail Database System
+# Retail Database System
 
 > Enterprise-grade relational database solution transforming event-based retail operations from manual processes to data-driven infrastructure.
 
