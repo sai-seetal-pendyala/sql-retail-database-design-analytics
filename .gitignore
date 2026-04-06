@@ -7,46 +7,24 @@
 
 # Logs
 *.log
-logs/
-*.log.*
 
-# Environment variables
+# Environment
 .env
 .env.local
 .env.*.local
 
-# IDE files
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
-.DS_Store
 
-# OS files
+# OS
+.DS_Store
 Thumbs.db
 desktop.ini
 
-# Temporary files
+# Temp
 *.tmp
-*.temp
 *.bak
 *.backup
-
-# Compiled files
-*.pyc
-__pycache__/
-
-# Node modules (if using Node.js tools)
-node_modules/
-package-lock.json
-
-# Documentation builds
-docs/_build/
-site/
-
-# Personal notes
-notes.md
-TODO.md
-personal/
-
