@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 <p align="center">
-  <img src="assets/banner.svg" alt="Foxcore Retail Database System" width="100%"/>
+  <img src="assets/banner.svg" alt="Event retail database and SQL analytics" width="100%"/>
 </p>
-=======
-# Retail Database System
->>>>>>> b855d68bf8f0c2b39af30a008b35e094622f8803
 
 <p align="center">
   <img src="https://img.shields.io/badge/SQL-Database-00D4C8?style=flat-square&logo=postgresql&logoColor=white"/>
@@ -15,9 +11,9 @@
 
 ---
 
-Foxcore Retail runs pop-up booths at music festivals, fitness expos, and sporting events across Ontario. Sales lived in spreadsheets, commissions took hours to calculate by hand, and nobody could answer the most basic questions -- which products sell best at which events, which booth locations drive the most revenue, or which salespeople earn their shifts. This project builds a normalized relational database from the ground up: **7 tables in third normal form, a star schema designed for analytics, and 6 business intelligence queries that turn fragmented transaction data into decisions about where to show up, what to stock, and who to schedule**.
+A pop-up retailer runs booths at music festivals, fitness expos, and sporting events across Ontario. Sales lived in spreadsheets, commissions took hours to calculate by hand, and nobody could answer the most basic questions -- which products sell best at which events, which booth locations drive the most revenue, or which salespeople earn their shifts. This project builds a normalized relational database from the ground up: **7 tables in third normal form, a star schema designed for analytics, and 6 business intelligence queries that turn fragmented transaction data into decisions about where to show up, what to stock, and who to schedule**.
 
-> Case study: [Foxcore Retail](docs/Case%20Study%20-%20Foxcore%20Retail.pdf)
+> Case study scenario: [Foxcore Retail (PDF)](docs/Case%20Study%20-%20Foxcore%20Retail.pdf)
 
 ---
 
@@ -34,9 +30,9 @@ tables in third normal form
 business intelligence queries
 </td>
 <td align="center" width="25%" valign="top">
-<h1>Star</h1>
+<h1>6+1</h1>
 <hr>
-schema -- fact + dimension design
+dimension tables plus one fact table
 </td>
 <td align="center" width="25%" valign="top">
 <h1>3NF</h1>
@@ -76,7 +72,7 @@ zero data redundancy
 
 ## The problem
 
-Foxcore Retail operates pop-up sales booths at music festivals, fitness expos, and sporting events across Ontario. A team of salespeople rotates through booths at different venues, selling products ranging from glow sticks to cooling towels and earning commissions on each transaction.
+The business operates pop-up sales booths at music festivals, fitness expos, and sporting events across Ontario. A team of salespeople rotates through booths at different venues, selling products ranging from glow sticks to cooling towels and earning commissions on each transaction.
 
 As the operation expanded from one or two events to a multi-venue calendar, everything broke. Sales were tracked in disconnected spreadsheets -- one per event, sometimes one per salesperson. Commission calculations required 4-6 hours of manual reconciliation each pay period. Product performance across event types was invisible. Booth placement decisions were pure guesswork. Each new event meant another spreadsheet, another reconciliation process, another chance for errors to compound.
 
@@ -142,7 +138,7 @@ The result: zero redundancy, predictable updates, and a schema that handles grow
 
 ## Analytical queries
 
-Six queries built to answer the questions Foxcore Retail couldn't ask before. Each query traverses multiple tables through JOINs, demonstrating the analytical power of a properly normalized schema.
+Six queries built to answer questions that spreadsheet-only operations could not answer reliably. Each query traverses multiple tables through JOINs, demonstrating the analytical power of a properly normalized schema.
 
 <table width="100%">
 <tr>
@@ -215,7 +211,7 @@ The database design reveals that event-based retail analytics requires crossing 
 
 ## Business impact
 
-Before this system, every business question at Foxcore Retail required someone to open multiple spreadsheets, manually cross-reference rows, and hope the formulas were right. The database replaces that entire process with queries that run in milliseconds.
+Before this system, every business question required someone to open multiple spreadsheets, manually cross-reference rows, and hope the formulas were right. The database replaces that entire process with queries that run in milliseconds.
 
 **For the operations manager:** Commission disputes disappear. Every sale maps to a shift, every shift maps to a salesperson. The 4-6 hour manual calculation becomes a single query. Payroll processing goes from a day-long headache to a 30-second report.
 
