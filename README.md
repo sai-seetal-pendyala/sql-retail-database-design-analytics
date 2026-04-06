@@ -93,7 +93,7 @@ The scenario, operating context, and modeling brief match the Ivey case named in
 
 This repository contains:
 
-- **Executable SQL** in [code/](code/) -- table creation, seed data, update/delete exercises, and six analytical queries documented in the [Group 2 project report (PDF)](docs/Group%20%232_Project%20Report.pdf)
+- **Executable SQL** in [code/](code/) -- table creation, seed data, update/delete exercises, and six analytical queries documented in the [Group 2 project report (PDF)](docs/Project Report.pdf)
 - **Design documentation** -- [ARCHITECTURE.md](docs/ARCHITECTURE.md) and [DATABASE_DICTIONARY.md](docs/DATABASE_DICTIONARY.md)
 - **Figures** in [assets/](assets/) -- ERD, relational schema, and 3NF dependency notes used in the report
 
