@@ -3,17 +3,18 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/SQL-Database-00D4C8?style=flat-square&logo=postgresql&logoColor=white"/>
-  <img src="https://img.shields.io/badge/3NF-Normalized-00D4C8?style=flat-square"/>
-  <img src="https://img.shields.io/badge/Star_Schema-Analytical-00D4C8?style=flat-square"/>
+  <img src="https://img.shields.io/badge/SQL-DDL_%2F_DML-00D4C8?style=flat-square&logo=postgresql&logoColor=white"/>
+  <img src="https://img.shields.io/badge/ER_Modeling-Conceptual-00D4C8?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Star_Schema-3NF-00D4C8?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Ivey_Publishing-Case_Study-006747?style=flat-square"/>
   <img src="https://img.shields.io/badge/License-MIT-F5F5F0?style=flat-square"/>
 </p>
 
 ---
 
-A pop-up retailer runs booths at music festivals, fitness expos, and sporting events across Ontario. Sales lived in spreadsheets, commissions took hours to calculate by hand, and nobody could answer the most basic questions -- which products sell best at which events, which booth locations drive the most revenue, or which salespeople earn their shifts. This project builds a normalized relational database from the ground up: **7 tables in third normal form, a star schema designed for analytics, and 6 business intelligence queries that turn fragmented transaction data into decisions about where to show up, what to stock, and who to schedule**.
+Two founders scaled a seasonal pop-up across Ontario venues while staff still recorded sales on paper. Commissions were error-prone, nobody could compare product performance across event types, and each new festival added another silo of numbers. The case calls for a disciplined data model that connects every sale to a shift, booth, event, venue, product, and salesperson. **This work delivers that model: third-normal-form tables arranged as a star schema, foreign-key integrity end to end, and six analytical queries that answer inventory, payroll, and placement questions in one pass.**
 
-> Case study scenario: [Foxcore Retail (PDF)](docs/Case%20Study%20-%20Foxcore%20Retail.pdf)
+> Case study (Ivey Publishing): [Foxcore Retail (A): Designing a Database](<docs/Case Study - Foxcore Retail.pdf>)
 
 ---
 
@@ -22,22 +23,22 @@ A pop-up retailer runs booths at music festivals, fitness expos, and sporting ev
 <td align="center" width="25%" valign="top">
 <h1>7</h1>
 <hr>
-tables in third normal form
+normalized tables
 </td>
 <td align="center" width="25%" valign="top">
 <h1>6</h1>
 <hr>
-business intelligence queries
+analytical SQL queries
 </td>
 <td align="center" width="25%" valign="top">
-<h1>6+1</h1>
+<h1>4-6 hr</h1>
 <hr>
-dimension tables plus one fact table
+commission reconciliation (spreadsheet era)
 </td>
 <td align="center" width="25%" valign="top">
-<h1>3NF</h1>
+<h1>4</h1>
 <hr>
-zero data redundancy
+tables in the deepest analytic JOIN path
 </td>
 </tr>
 </table>
@@ -49,177 +50,182 @@ zero data redundancy
 | **Section** | **What you'll find** |
 |---|---|
 | [Project snapshot](#project-snapshot) | Quick-glance specs |
-| [The problem](#the-problem) | Why spreadsheets were costing the business |
-| [Database design](#database-design) | 7 tables, star schema, normalization |
-| [Analytical queries](#analytical-queries) | 6 business questions answered in SQL |
-| [Key findings](#key-findings) | What the data reveals |
-| [Business impact](#business-impact) | Decisions this system enables |
-| [Reproduce it](#reproduce-it) | Clone, create, query |
+| [The problem](#the-problem) | Why paper and spreadsheets failed the operation |
+| [Data](#data) | Case source and what ships in this repo |
+| [Three design layers](#three-design-layers) | Conceptual, logical, and physical views |
+| [Analysis](#analysis) | Workflow, diagrams, and the six business queries |
+| [Key findings](#key-findings) | What the schema implies for analytics |
+| [Recommendations](#recommendations) | How the business should use the system |
+| [Reproduce it](#reproduce-it) | Clone, run scripts in order |
 
 ---
 
 ## Project snapshot
 
-| **Domain** | Retail operations, event-based sales |
+| **Domain** | Retail operations, event-based pop-up sales |
 |---|---|
-| **Context** | Database design for an Ontario pop-up retail startup |
-| **School** | Illinois Institute of Technology |
-| **Tools** | SQL (DDL, DML, analytical queries) |
-| **Methods** | ER modeling, 3NF normalization, star schema design |
-| **Schema** | 7 tables -- 1 fact table, 6 dimension tables |
+| **Context** | Ivey Publishing case study -- *Foxcore Retail (A): Designing a Database* (Neufeld, Corrigan & Gencarelli, 2018) |
+| **Course** | MAX 506 -- Database Design & SQL, Stuart SChool of Business |
+| **Tools** | SQL (DDL, DML, multi-table analytics) |
+| **Methods** | ER modeling, 3NF normalization, star schema, referential integrity |
+| **Deliverables** | `Sales` fact table, six dimensions (`Venue`, `Event`, `Booth`, `Product`, `Salesperson`, `Shift`), six BI queries |
 
 ---
 
 ## The problem
 
-The business operates pop-up sales booths at music festivals, fitness expos, and sporting events across Ontario. A team of salespeople rotates through booths at different venues, selling products ranging from glow sticks to cooling towels and earning commissions on each transaction.
+The company sells at music festivals, fitness expos, and sports events. Staff rotate through booths; each transaction should trace to who sold what, where, and when. Growth turned informal record-keeping into a bottleneck: separate tallies per event or salesperson, manual commission math, no standard way to rank products by event type, and no evidence for which booth placements paid off.
 
-As the operation expanded from one or two events to a multi-venue calendar, everything broke. Sales were tracked in disconnected spreadsheets -- one per event, sometimes one per salesperson. Commission calculations required 4-6 hours of manual reconciliation each pay period. Product performance across event types was invisible. Booth placement decisions were pure guesswork. Each new event meant another spreadsheet, another reconciliation process, another chance for errors to compound.
-
-| **Problem** | **Scale** |
+| **Friction** | **Effect** |
 |---|---|
-| Fragmented sales data | Separate spreadsheets per event, per salesperson |
-| Manual commission calculation | 4-6 hours per pay period |
-| No product-event analytics | Zero visibility into what sells where |
-| Booth placement guesswork | No data on which locations drive revenue |
-| Scaling pain | Each new event multiplied manual effort linearly |
+| Fragmented records | Reconciliation across sheets before any cross-event view |
+| Manual commissions | Multi-hour payroll work each period, dispute risk |
+| No shared product–event view | Merchandising and replenishment decisions made blind |
+| Untracked placement | Booth negotiation without revenue-by-location facts |
 
-The fundamental question: how do you capture the full chain from venue to event to booth to shift to salesperson to sale to product -- and make the whole thing queryable in seconds?
+The teaching question is how to represent the full chain -- venue through event, booth, shift, salesperson, sale, and product -- so that integrity holds and analytics are one query away.
 
 ---
 
-## Database design
+## Data
 
-<p align="center">
-  <img src="assets/ERD.png" alt="Entity Relationship Diagram -- 7 entities with full cardinality" width="100%"/>
-</p>
+The scenario, operating context, and modeling brief match the Ivey case named in the [project snapshot](#project-snapshot). The published case does not include a redistributable data dump; the team built the implementation from the requirements narrative.
 
-The schema follows a **star pattern** with `Sales` as the central fact table and six dimension tables radiating outward. Every relationship is enforced through foreign key constraints -- no orphaned records, no referential integrity violations.
+This repository contains:
 
-<p align="center">
-  <img src="assets/relational_schema.png" alt="Relational schema -- 7 tables with primary and foreign key mappings" width="100%"/>
-</p>
+- **Executable SQL** in [code/](code/) -- table creation, seed data, update/delete exercises, and six analytical queries documented in the [Group 2 project report (PDF)](docs/Group%20%232_Project%20Report.pdf)
+- **Design documentation** -- [ARCHITECTURE.md](docs/ARCHITECTURE.md) and [DATABASE_DICTIONARY.md](docs/DATABASE_DICTIONARY.md)
+- **Figures** in [assets/](assets/) -- ERD, relational schema, and 3NF dependency notes used in the report
+
+> Licensing: obtain the case PDF through your school or [Ivey Publishing](https://www.iveypublishing.ca/s/product/foxcore-retail-a-designing-a-database/01t5c00000CwoXfAAJ); do not redistribute proprietary case text here.
+
+---
+
+## Three design layers
+
+The project moves from narrative requirements to a physical schema the same way the case sequence suggests: conceptual entities first, then normalized structure, then implementable tables.
 
 <table width="100%">
 <tr>
 <td align="center" width="33%" valign="top">
-<h3>Dimension tables</h3>
+<h3>Conceptual</h3>
 <hr>
-Venue, Event, Booth, Product, Salesperson, Shift<br><br>Reference data that describes business entities -- relatively static, frequently joined
+Entities, relationships, and cardinality for venues, events, booths, products, salespeople, shifts, and sales<br><br><b>Tests:</b> Does the ER diagram cover every noun in the case?
 </td>
 <td align="center" width="33%" valign="top">
-<h3>Fact table</h3>
+<h3>Logical</h3>
 <hr>
-Sales<br><br>Transactional data linking products, shifts, and events with quantities and prices
+Third normal form: atomic fields, full key dependency, no transitive attributes<br><br><b>Tests:</b> Can you update a product price in one row without side effects?
 </td>
 <td align="center" width="33%" valign="top">
-<h3>Bridge table</h3>
+<h3>Physical</h3>
 <hr>
-Shift (also bridges Salesperson and Booth)<br><br>Temporal assignment linking who works where and when
+Star layout for analytics: `Sales` as the fact; dimensions for context<br><br><b>Tests:</b> Do FKs enforce every parent-child path the queries traverse?
 </td>
 </tr>
 </table>
 
-**Normalization to 3NF:**
-
-1. **1NF** -- All attributes contain atomic values. No repeating groups, no multi-valued cells.
-2. **2NF** -- Every non-key attribute is fully dependent on the entire primary key. No partial dependencies.
-3. **3NF** -- No transitive dependencies. Removing a non-key column never changes the meaning of another non-key column.
-
-The result: zero redundancy, predictable updates, and a schema that handles growth without restructuring.
-
-<p align="center">
-  <img src="assets/normalization_3NF.png" alt="Third normal form normalization -- dependency analysis for all 7 tables" width="100%"/>
-</p>
-
-> Full architecture details: [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Complete column reference: [DATABASE_DICTIONARY.md](docs/DATABASE_DICTIONARY.md)
+`Shift` doubles as the bridge that assigns a salesperson to a booth for a time window, which is how labor connects to location for commission logic.
 
 ---
 
-## Analytical queries
+## Analysis
 
-Six queries built to answer questions that spreadsheet-only operations could not answer reliably. Each query traverses multiple tables through JOINs, demonstrating the analytical power of a properly normalized schema.
+```mermaid
+flowchart LR
+    A["Case requirements"] --> B["ER model"]
+    B --> C["3NF + star decisions"]
+    C --> D["DDL + constraints"]
+    D --> E["Seed transactions"]
+    E --> F["Six BI queries"]
+```
+
+<p align="center">
+  <img src="assets/ERD.png" alt="Conceptual entity-relationship diagram" width="100%"/>
+</p>
+
+<p align="center">
+  <img src="assets/relational_schema.png" alt="Logical relational schema with keys" width="100%"/>
+</p>
+
+<p align="center">
+  <img src="assets/normalization_3NF.png" alt="Third normal form dependency analysis" width="100%"/>
+</p>
+
+> Deeper design notes: [ARCHITECTURE.md](docs/ARCHITECTURE.md) · Column-level reference: [DATABASE_DICTIONARY.md](docs/DATABASE_DICTIONARY.md)
+
+The six queries below map directly to the business questions in the project report; each is multi-table and relies on the keys above.
 
 <table width="100%">
 <tr>
 <th align="left" width="5%">#</th>
-<th align="left" width="30%">Business question</th>
-<th align="left" width="35%">What the query does</th>
-<th align="left" width="30%">Key JOINs</th>
+<th align="left" width="30%">Question</th>
+<th align="left" width="35%">Output</th>
+<th align="left" width="30%">Join spine</th>
 </tr>
 <tr>
 <td>1</td>
-<td>Which products perform best at different events?</td>
-<td>Total revenue and units sold by product at each event</td>
+<td>Product performance by event</td>
+<td>Revenue and units by product × event</td>
 <td>Sales → Product → Event</td>
 </tr>
 <tr>
 <td>2</td>
-<td>How much did each salesperson sell and what's their commission?</td>
-<td>Per-person sales totals with 10% commission calculation</td>
+<td>Salesperson totals and commission</td>
+<td>Per-person sales; commission at 10%</td>
 <td>Sales → Shift → Salesperson</td>
 </tr>
 <tr>
 <td>3</td>
-<td>Which event types generate the most revenue?</td>
-<td>Revenue and average transaction value by event category</td>
-<td>Sales → Event (grouped by type)</td>
+<td>Revenue by event type</td>
+<td>Totals and average ticket by category</td>
+<td>Sales → Event</td>
 </tr>
 <tr>
 <td>4</td>
-<td>How productive is each shift?</td>
-<td>Revenue per shift with salesperson and time window</td>
+<td>Shift productivity</td>
+<td>Revenue per shift with worker and window</td>
 <td>Sales → Shift → Salesperson</td>
 </tr>
 <tr>
 <td>5</td>
-<td>Which booth locations drive the most sales?</td>
-<td>Transaction count, units, and revenue by booth within each event</td>
+<td>Booth performance</td>
+<td>Counts, units, revenue by booth within event</td>
 <td>Sales → Shift → Booth → Event</td>
 </tr>
 <tr>
 <td>6</td>
-<td>What are the true profit margins by product?</td>
-<td>Average selling price, profit per unit, margin %, and total profit</td>
-<td>Sales → Product (with calculated fields)</td>
+<td>Product profitability</td>
+<td>Margin % and profit using cost vs. realized price</td>
+<td>Sales → Product</td>
 </tr>
 </table>
-
-**Query 1 -- Product performance by event** answers the inventory question. If glow sticks outsell cooling towels 3:1 at music festivals but cooling towels dominate at fitness expos, you stock differently for each event type.
-
-**Query 2 -- Commission tracking** eliminates the 4-6 hour manual reconciliation entirely. Every sale links through a shift to the salesperson who made it. Commission = `Total Sales × 10%`, calculated automatically.
-
-**Query 5 -- Booth-level revenue** is the one that changes real decisions. When negotiating booth placement at a venue, having data on which locations generated the most revenue gives you leverage. "L11 outperformed L12 by 40% at the same event" is a sentence spreadsheets could never produce.
-
-**Query 6 -- Product profitability** surfaces the gap between revenue and actual profit. A product can look like a top seller on units but have thin margins. This query calculates `(Final_Selling_Price - Wholesale_Cost) / Final_Selling_Price × 100` to expose the real number.
 
 ---
 
 ## Key findings
 
-The database design reveals that event-based retail analytics requires crossing at least three entity boundaries to produce useful insights. No single table contains enough context to answer a real business question.
+**1. Analytics starts at the fourth join.** Booth-level insight needs `Sales`, `Shift`, `Booth`, and `Event` aligned; a single flat export cannot preserve those keys without redundancy or orphan rows.
 
-**1. Multi-table JOINs are not optional -- they're the point.** The most useful query (booth-level revenue) requires traversing Sales → Shift → Booth → Event. Without referential integrity linking these tables, this analysis is impossible in spreadsheets.
+**2. Commissions become a query, not a spreadsheet formula.** Linking each sale to a shift and salesperson removes duplicate counting when one person covers multiple booths or events in a pay period.
 
-**2. Commission accuracy scales with transaction volume.** In a spreadsheet, each new transaction increases the chance of a calculation error. In the database, commission is a derived column that's always correct regardless of volume.
+**3. Event type stratification changes assortment.** Query 1 and 3 together separate "what sold" from "where the money came from by category," which is how a pop-up operator decides what to pack for the next festival type.
 
-**3. Product-market fit varies by event type.** Music festivals, trade shows, and sporting events attract different audiences with different purchase patterns. The product-by-event query makes this visible for the first time.
-
-**4. Booth placement is a revenue lever.** Location within a venue affects sales volume. The booth revenue query creates a feedback loop: measure performance, negotiate better placements, measure again.
+**4. Margin and volume diverge.** Query 6 shows that unit leaders are not always margin leaders; without wholesale cost in the same grain as selling price, merchandising overweights top-line SKUs.
 
 ---
 
-## Business impact
+## Recommendations
 
-Before this system, every business question required someone to open multiple spreadsheets, manually cross-reference rows, and hope the formulas were right. The database replaces that entire process with queries that run in milliseconds.
+**Treat the star schema as the system of record for operations.** Enter venues, events, booths, products, and staff through the constrained tables so every new sale inherits valid foreign keys; ad-hoc sheets become exports from the database, not the source.
 
-**For the operations manager:** Commission disputes disappear. Every sale maps to a shift, every shift maps to a salesperson. The 4-6 hour manual calculation becomes a single query. Payroll processing goes from a day-long headache to a 30-second report.
+**Run commission and payroll from Query 2.** Use the same definition of "who earned what" for disputes and planning; if the rule changes (e.g., rate other than 10%), change it once in the query or a view.
 
-**For the event planner:** The revenue-by-event-type query tells you which events to attend again and which to skip. Combined with booth-level data, you can negotiate specific locations at proven venues instead of accepting whatever's available.
+**Use Query 5 in venue negotiations.** Bring location-level revenue to the next contract conversation instead of negotiating on intuition alone.
 
-**For the merchandiser:** Product profitability by event type means you stop bringing slow-moving inventory to the wrong events. High-margin items get shelf space at events where they sell. Low-margin items get re-priced or dropped.
+**Pair Query 1 with Query 6 before reordering.** Rebalance inventory toward high-margin winners at the event types where they actually move, not only where units spike.
 
-The system also scales. Adding a new venue, event, product, or salesperson requires nothing more than INSERT statements that inherit the full constraint and query infrastructure automatically.
+**Keep methodology in version control.** Document assumption changes (commission rules, new dimensions) in [docs/methodology.md](docs/methodology.md) so the model stays aligned with the case brief as the course or business evolves.
 
 ---
 
@@ -230,23 +236,14 @@ git clone https://github.com/sai-seetal-pendyala/sql-retail-database-design-anal
 cd sql-retail-database-design-analytics
 ```
 
-**Run in any SQL environment (MySQL, PostgreSQL, SQL Server):**
+**Run in MySQL, PostgreSQL, or SQL Server (order matters):**
 
 ```sql
--- Step 1: Create all tables with constraints
--- Run code/01_create_tables.sql
-
--- Step 2: Insert sample data
--- Run code/02_insert_data.sql
-
--- Step 3: Test updates and deletes
--- Run code/03_update_delete.sql
-
--- Step 4: Run analytical queries
--- Run code/04_analytical_queries.sql
+-- code/01_create_tables.sql
+-- code/02_insert_data.sql
+-- code/03_update_delete.sql
+-- code/04_analytical_queries.sql
 ```
-
-Each SQL file is self-contained and documented. Run them in order -- the foreign key constraints require parent tables to exist before child data is inserted.
 
 ---
 

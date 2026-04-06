@@ -1,2 +1,9 @@
-# Auto detect text files and perform LF normalization
+# Normalize line endings
 * text=auto
+
+# Ensure SQL in code/ counts toward GitHub language statistics
+*.sql linguist-detectable=true
+*.sql linguist-language=SQL
+
+# Large reference docs (optional: keeps language bar weighted toward code)
+docs/*.md linguist-documentation
