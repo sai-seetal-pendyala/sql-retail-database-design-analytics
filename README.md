@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 <p align="center">
   <img src="assets/banner.svg" alt="Foxcore Retail Database System" width="100%"/>
 </p>
+=======
+# Retail Database System
+>>>>>>> b855d68bf8f0c2b39af30a008b35e094622f8803
 
 <p align="center">
   <img src="https://img.shields.io/badge/SQL-Database-00D4C8?style=flat-square&logo=postgresql&logoColor=white"/>
